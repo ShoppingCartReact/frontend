@@ -15,8 +15,8 @@ BookStack uses a number of technologies:
 * ReactJS - a front-end JS library
 * Redux - a predictable state container for JavaScript apps
 * Node.js - evented I/O for the backend
-* Express - fast node.js network app framework
-* MongoDB - a cross-platform document-oriented database program
+* FeathersJS - fast node.js network app framework
+* MySQL-realtional database
 * Webpack - a module bundler
 * React-Bootstrap - front-end framework for react
 
@@ -26,17 +26,15 @@ BookStack requires [Node.js](https://nodejs.org/) v6.11.0 to run.
 
 Install the dependencies and devDependencies and start the server.
 
-Please install and run the [MongoDB](https://www.mongodb.com/) server before running the app.
-
-```sh
-$ cd bookstack
-$ npm install
-$ nodemone
-```
-
-To run webpack run the below command in separate terminal:
+Run webpack in separate terminal:
 ```sh
 $ webpack
+```
+
+
+```sh
+$ npm install
+$ npm start
 ```
 
 The app will be listening at:

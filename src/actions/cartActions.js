@@ -1,45 +1,51 @@
 "use strict";
 import axios from "axios";
+import index from "axios";
+const API = "http://localhost:3030/cart";
 
 // GET CART
-export function getCart() {
-  return function(dispatch) {
+export const getCart = () => {
+  return dispatch => {
     axios
-      .get("/api/cart")
-      .then(function(response) {
-        dispatch({ type: "GET_CART", payload: response.data });
+      .get(API)
+      .then(response => {
+        dispatch({ type: "GET_CART", payload: response.data.data });
       })
-      .catch(function(err) {
+      .catch(err => {
         dispatch({
           type: "GET_CART_REJECTED",
           msg: "Error while getting the cart"
         });
       });
   };
-}
+};
 
 // ADD TO CART
-export function addToCart(cart) {
-  return function(dispatch) {
+export const addToCart = (cart, id) => {
+  let bookIndexToAdd = cart.findIndex(cart => {
+    return cart.id == id;
+  });
+  let bookToAdd = cart[bookIndexToAdd];
+  return dispatch => {
     axios
-      .post("/api/cart", cart)
-      .then(function(response) {
-        dispatch({ type: "ADD_TO_CART", payload: response.data });
+      .post(API, bookToAdd)
+      .then(response => {
+        dispatch({ type: "ADD_TO_CART", payload: cart });
       })
-      .catch(function(err) {
+      .catch(err => {
         dispatch({
           type: "ADD_TO_CART_REJECTED",
-          msg: "Error while adding to the cart"
+          msg: err
         });
       });
   };
-}
+};
 
 // UPDATE CART
-export function updateCart(id, unit, cart) {
+export const updateCart = (id, unit, cart) => {
   const currentBookToUpdate = cart;
-  const indexToUpdate = currentBookToUpdate.findIndex(book => {
-    return book.id === id;
+  const indexToUpdate = currentBookToUpdate.findIndex(cart => {
+    return cart.id === id;
   });
   const newBookToUpdate = {
     ...currentBookToUpdate[indexToUpdate],
@@ -51,34 +57,34 @@ export function updateCart(id, unit, cart) {
     ...currentBookToUpdate.slice(indexToUpdate + 1)
   ];
 
-  return function(dispatch) {
+  return dispatch => {
     axios
-      .post("/api/cart", cartUpdate)
-      .then(function(response) {
-        dispatch({ type: "UPDATE_CART", payload: response.data });
+      .put(`${API}/${id}`, newBookToUpdate)
+      .then(response => {
+        dispatch({ type: "UPDATE_CART", payload: cartUpdate });
       })
-      .catch(function(err) {
+      .catch(err => {
         dispatch({
           type: "UPDATE_CART_REJECTED",
-          msg: "Error while updating the cart"
+          msg: err
         });
       });
   };
-}
+};
 
 // DELETE FROM CART
-export function deleteCartItem(cart) {
-  return function(dispatch) {
+export const deleteCartItem = (id, cart) => {
+  return dispatch => {
     axios
-      .post("/api/cart", cart)
-      .then(function(response) {
-        dispatch({ type: "DELETE_CART_ITEM", payload: response.data });
+      .delete(`${API}/${id}`)
+      .then(response => {
+        dispatch({ type: "DELETE_CART_ITEM", payload: cart });
       })
-      .catch(function(err) {
+      .catch(err => {
         dispatch({
           type: "DELETE_CART_ITEM_REJECTED",
           msg: "Error while deleting item from the cart"
         });
       });
   };
-}
+};

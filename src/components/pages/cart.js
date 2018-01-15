@@ -48,8 +48,7 @@ class Cart extends React.Component {
       ...currentBookToDelete.slice(0, indexToDelete),
       ...currentBookToDelete.slice(indexToDelete + 1)
     ];
-
-    this.props.deleteCartItem(cartAfterDelete);
+    this.props.deleteCartItem(id, cartAfterDelete);
   };
 
   onIncrement = id => {

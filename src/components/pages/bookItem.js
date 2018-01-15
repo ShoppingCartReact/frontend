@@ -26,24 +26,22 @@ class BookItem extends React.Component {
       }
     ];
     // CHECK IF CART IS EMPTY
-    console.log(this.props.cart);
     if (this.props.cart.length > 0) {
       // CART IS NOT EMPTY
       let id = this.props.id;
-
       let cartIndex = this.props.cart.findIndex(cart => {
         return cart.id === id;
       });
       // IF RETURNS -1 THERE ARE NO ITEMS WITH SAME ID
       if (cartIndex === -1) {
-        this.props.addToCart(book);
+        this.props.addToCart(book, this.props.id);
       } else {
         // UPDATE QUANTITY
         this.props.updateCart(id, 1, this.props.cart);
       }
     } else {
       // CART IS EMPTY
-      this.props.addToCart(book);
+      this.props.addToCart(book, this.props.id);
     }
   };
 
